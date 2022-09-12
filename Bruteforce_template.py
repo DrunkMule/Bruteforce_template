@@ -10,6 +10,7 @@ chars = string.ascii_lowercase + string.digits
 value = ""
 character_list = list(character)
 attempts = 0
+printcounter = 0
 text = "Password is {}, took {} tries."
 password = input("Type a password: ")
 guess = ""
@@ -24,8 +25,11 @@ while guess != password:
     if int(which_one) > 0:
         guess = random.choices(character_list,k=len(password))
         guess = "".join(guess)
-        print(guess, attempts)
-        attempts += 1    
+        if printcounter == 1000000:
+            print(guess, attempts)
+            printcounter = 0
+        attempts += 1
+        printcounter += 1
         if guess == password:
             attempts = attempts - 1
             print(text.format(guess, attempts))
@@ -35,8 +39,11 @@ while guess != password:
         for password_length in range(1, 9):
             for guess in itertools.product(chars, repeat=password_length):
                 guess = ''.join(guess)
-                print(guess, attempts)
+                if printcounter == 1000000:
+                    print(guess, attempts)
+                    printcounter = 0
                 attempts += 1
+                printcounter += 1
                 if guess == password:
                     attempts = attempts - 1
                     print(text.format(guess, attempts))
